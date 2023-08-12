@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 from selectedRec import selected_rec
-app = Flask(__name__)
+from flask_cors import CORS, cross_origin
 
+app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 @app.route("/getColums", methods=["POST"])
 def getCoumns():
@@ -11,4 +13,4 @@ def getCoumns():
     return jsonify(response)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)
