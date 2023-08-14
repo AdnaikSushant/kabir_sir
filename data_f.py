@@ -11,10 +11,10 @@ def data(author_id):
         json_obj = (response.json())
 
         conn=connn
-        cursor = connn.cursor()
+        cursor = conn.cursor()
         for item in json_obj['articles']:
             title=item['title']
-            link=item['link']
+            link= str(item['link'])
             citation_id=item['citation_id']
             authors=item['authors']
             try:
@@ -28,10 +28,11 @@ def data(author_id):
         
             try:
         
-                cursor.execute('INSERT INTO dbo.gs_data([title],[link],[citation_id],[authors],[publication],[cited_link],[cited_value],[p_year],[author_id]) VALUES (?,?,?,?,?,?,?,?,?)',(title,link,citation_id,authors,publication,cited_link,cited_value,p_year,author_id))
-
+                cursor.execute('INSERT INTO google_scholar (title,citation_id,authors,publication,cited_link,cited_value,p_year,author_id,link) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s);',(title,citation_id,authors,publication,cited_link,cited_value,p_year,author_id,link))
                 conn.commit()
+                print("Inserted")
             except Exception as e:
+                print("Error in data_f",e)
                 pass
     except Exception as e:
         print(e)
